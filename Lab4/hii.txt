@@ -1,0 +1,50 @@
+The frequency of each alphabetical character:
+e 480970
+t 354107
+o 332717
+a 309408
+i 268911
+s 266424
+n 260133
+h 255742
+r 251863
+l 180723
+d 158715
+u 137354
+m 117435
+y 99484
+w 96315
+c 91697
+f 86140
+g 72858
+b 64067
+p 61506
+v 40149
+k 37823
+x 5331
+j 4905
+q 3961
+z 1842
+The number of words are 960389
+The number of unique are 30897
+The most common words are:
+the (30096 occurences)
+-- king, 755
+-- world, 442
+-- duke, 367
+and (28371 occurences)
+-- the, 855
+-- i, 792
+-- so, 433
+i (21890 occurences)
+-- am, 1958
+-- have, 1709
+-- will, 1624
+to (20895 occurences)
+-- the, 1560
+-- be, 1044
+-- me, 508
+of (18816 occurences)
+-- the, 1623
+-- my, 760
+-- his, 635
