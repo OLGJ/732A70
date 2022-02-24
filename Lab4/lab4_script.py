@@ -1,8 +1,11 @@
-from pickle import FALSE
+#!/usr/bin/env python3
+
+import sys
+import os
 import re           # Import regex for string cleaning
 from itertools import chain
-from itertools import islice
 from collections import Counter
+
 
 class Shakespear:
 
@@ -16,26 +19,19 @@ class Shakespear:
         
     def parse(self):
         """Parse the file into single words with UTF-8 BOM encoding"""
-        try:
-            with open(self.textfile, 'r', encoding='utf_8_sig') as file:
-                
-                sentences = [row.lower().split() for row in file] # Splits into sentences
-                
-                all_words = lambda x: chain.from_iterable(x) # Acts as an unlisting
-
-                regex = re.compile('[^a-zA-Z]') # Define regex
-                cleaned_words = map(lambda x: regex.sub('', x), all_words(sentences)) 
-                # Applies regex to unlisted elements
-
-                self.cleaned_words = list(cleaned_words)
-                
-
-        # Exception error if file does not exist
-        except FileNotFoundError as e:
-            # [ ] If the file does not exist, you need to print "The file does not exist!" (ie not just crash).
-            e = "The file doesn't exist"
+    
+        with open(self.textfile, 'r', encoding='utf_8_sig') as file:
             
-            print(e)
+            sentences = [row.lower().split() for row in file] # Splits into sentences
+            
+            all_words = lambda x: chain.from_iterable(x) # Acts as an unlisting
+
+            regex = re.compile('[^a-zA-Z]') # Define regex
+            cleaned_words = map(lambda x: regex.sub('', x), all_words(sentences)) 
+            # Applies regex to unlisted elements
+
+            self.cleaned_words = list(cleaned_words)
+        
 
     def output(self):
         """Output:
@@ -66,8 +62,8 @@ class Shakespear:
             most_common.append(result.most_common(4)) # We select the 4 most common words
         
 
-        if self.write: # If user specified output file
-            print("Output file created!")
+        if (self.write is not None): # If user specified output file
+            
             with open(self.write, 'w') as file:
                     # Task 1
                     print(f"The frequency of each alphabetical character:", file=file)
@@ -86,7 +82,7 @@ class Shakespear:
                         print(f"{word_freq[i][0]} ({word_freq[i][1]} occurences)", file=file)
                         for w in word[1:4]:
                             print(f"-- {w[0]}, {w[1]}", file=file)
-                
+        #else:       
         ######### Printing part ###########
         # Task 1
         print(f"The frequency of each alphabetical character:")
@@ -106,9 +102,88 @@ class Shakespear:
             for w in word[1:4]:
                 print(f"-- {w[0]}, {w[1]}")
         
-shake = Shakespear('shakespeare.txt', "hii.txt")
-shake.parse()
-shake.output()
+### Invoking script from terminal
+def main():
+    """
+    Handles if operative system is windows or else.
+    Invoke instance depending on number of arguments
+    """
+    operative = False
+    if os.name == 'nt':
+        operative = True
+    
+    if operative:
+        print("Operative system is Windows")
+
+        if len(sys.argv) < 3:
+            
+            try:
+                print("No outputfile passed - invoking script withouth generating output to a file")
+                shake = Shakespear(sys.argv[1])
+                shake.parse()
+                shake.output()
+            # IndexError if no fileargument was passed
+            except IndexError as e:
+                e = "Provide a textfile to read"
+                print(e)
+            # Exception error if file does not exist
+            except FileNotFoundError as f:
+                    f = "The file does not exist!"
+                    print(f)
+            
+
+        else:
+            try:
+                print("Outputfile passed - 2nd argument will be created")
+                shake = Shakespear(sys.argv[1], sys.argv[2])
+                shake.parse()
+                shake.output()
+                        # IndexError if no fileargument was passed
+            except IndexError as e:
+                e = "Provide a textfile to read"
+                print(e)
+            # Exception error if file does not exist
+            except FileNotFoundError as f:
+                    f = "The file does not exist!"
+                    print(f)
+    else:
+        if len(sys.argv < 2):
+            try: 
+                print("Operative system is not windows")
+                if len(sys.argv) < 2:
+                    shake = Shakespear(sys.argv[0])
+                    shake.parse()
+                    shake.output()
+                        # IndexError if no fileargument was passed
+            except IndexError as e:
+                e = "Provide a textfile to read"
+                print(e)
+            # Exception error if file does not exist
+            except FileNotFoundError as f:
+                    f = "The file does not exist!"
+                    print(f)
+        else:
+            try:
+                print("Outputfile passed - 2nd argument will be created")
+                shake = Shakespear(sys.argv[0], sys.argv[1])
+                shake.parse()
+                shake.output()
+                        # IndexError if no fileargument was passed
+            except IndexError as e:
+                e = "Provide a textfile to read"
+                print(e)
+            # Exception error if file does not exist
+            except FileNotFoundError as f:
+                    f = "The file does not exist!"
+                    print(f)
+
+if __name__ == "__main__":
+    main()
+    print("Running as main.")
+
+else:
+    print("I was imported!")
+
 
 
 #### Additional questions
