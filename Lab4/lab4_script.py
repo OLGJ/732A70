@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from itertools import chain
 import sys
 import os
 import re           # Import regex for string cleaning
@@ -41,25 +42,13 @@ class Shakespear:
         """
         words = self.cleaned_words
         n = self.total_words
-
-        # The list of words we want to find successors from
-        wordcheck = wordlist
-        #
+     
         word_candidates = []
-        for i, word in enumerate(wordcheck):
-            word_candidates.append([])
-            for index, item in enumerate(words):
-                if word == item:
-                    word_candidates[i].append(words[index:index+2])
-
-
-        most_common = []
-        for word_list in word_candidates:
-            word_pairs_flatten = [item for sublist in word_list for item in sublist]
-            result = Counter(word_pairs_flatten)
-            most_common.append(result.most_common(n)) # We select the 4 most common words
-
-
+        for _, word in enumerate(wordlist):
+            word_candidates.append([words[index:index+2] for index, item in enumerate(words) if word == item]) # Get word and consequent word
+            
+        most_common = [Counter(chain.from_iterable(frequent_word)).most_common() for frequent_word in word_candidates]
+        
         return most_common
 
     def output(self):

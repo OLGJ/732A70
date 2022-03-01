@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from lab4_script import Shakespear
 import datetime
+from random import choices
 import random
 import sys
 
@@ -24,7 +25,7 @@ while any(text.find_word_decendant(cur_word)) and picked < nwords:
     # Retrieve all the descendants of cur_word
     descendants = text.find_word_decendant(cur_word)
 
-    flat_list = [item for sublist in descendants for item in sublist]
+    flat_list = [item for sublist in descendants for item in sublist]   
 
     # Convert to dictionary and calculate the probability for each descendant
     dict_list = dict(flat_list[1:])
@@ -35,12 +36,12 @@ while any(text.find_word_decendant(cur_word)) and picked < nwords:
     dvals = list(dict_list_probabilities.values())
 
     # Select one random weighted word
-    cur_word = random.choices(dkeys, dvals, k = 1)
+    cur_word = choices(dkeys, dvals, k = 1)
+    
     msg = msg + " " + str(cur_word[0])
+    #msg = " ".join(msg, cur_word[0])
     picked += 1
 
 
 print(msg)
 print(datetime.datetime.now() - begin_time)
-
-# ./generate_text.pyshakespeare.txt king 500
