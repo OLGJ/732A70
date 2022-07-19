@@ -56,7 +56,7 @@ def generate_text_stats() :
     try :
         filename = sys.argv[1]
     except IndexError :
-        print("please provide a text file to read")
+        print("Please provide a text file to read.")
         sys.exit()
     
     predecessor = None # initially predecessor is None before parsing the file
@@ -144,7 +144,10 @@ if __name__ == "__main__" :
 """
 Additional questions
 [Q1] In what way did you "clean up" or divide up the text into words (in the program; the text files should be left unaffected)? This does not have to be perfect in any sense, but it should at least avoid counting "lord", "Lord" and "lord." as different words.
-  
+
+[A1] We implemented a function clean_line that takes a text line as a single string. It removes any line starting with a special character or containing any number. Otherwise it removes any special character or whitespace at the beginning or end, then breaks the line into potential words by splitting the line string at whitespaces. Then it cleans individual words by removing any leading or trailing special character or whitespace, and converts each word to lowercase. We observe that the text contains hyphenated words (like self-substantial) or words containing apostrophe (like mak’st), such words are treated as single words.
   
 [Q2] Which data structures have you used (such as lists, tuples, dictionaries, sets, ...)? Why does that choice make sense? You do not have to do any extensive research on the topics, or try to find exotic modern data structures, but you should reflect on which of the standard data types (or variants thereof) make sense. If you have tried some other solution and updated your code later on, feel free to discuss the effects!
+
+[A2] We have used dictionary for storing both the alphabet counts, and word counts. This choice seems most appropriate for our use case, as the most frequent operations are looking up a letter or a word to update its count or looking up a word to add a new successor or increment the count of an existing successor, and lookups are fast using a dictionary. Further for storing word counts, we have used a dictionary with each unique word as a key, and a list of length 2 as value. This list contains the count of the respective word as its first element, and the second element is a dictionary with each successor of the word as a key, and the count of that successor as value.
 """
