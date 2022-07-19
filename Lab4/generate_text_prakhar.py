@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from random import choices
 import sys
 from text_stats import generate_text_stats
